@@ -23,6 +23,13 @@ window = tolerance * 5
 if render:
 	import matplotlib.pyplot as plt
 
+def time_lost(design, actual):
+	""" returns the seconds gained per day as opposed to the design bph """
+	seconds_per_hour = 60 * 60
+	per_day = 24
+
+	return ((float(actual)/(float(design)/seconds_per_hour)) - seconds_per_hour)*per_day
+
 # open up a wave
 wf = wave.open(sys.argv[1], 'rb')
 
@@ -77,4 +84,5 @@ while len(data) > 0:
 
 for bph, c in nt.iteritems():
 	if len(values[bph]) > 0:
-		print ('%dbph matched %d times, mean %.2fbph'%(bph,c,np.mean(values[bph])))
+		actual = np.mean(values[bph])
+		print ('%dbph matched %d times, mean %.2fbph, seconds gained per day %0.3f'%(bph, c, actual, time_lost(bph, actual)))
