@@ -1,13 +1,19 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 import wave
 import numpy as np
+import sys
+
+if len(sys.argv) != 4:
+	print('./experiment_one.py filename expected_bph ampitude_threshold')
+	print('e.g. ./experiment_one.py sample-wavs/t2.wav 14400 0.5')
+	exit(-1)
 
 # What bph are we expecting?
-near = 14400
+near = int(sys.argv[2])
 # What is the bph +/- tolerance?
 tolerance = 1000
 # What is the ampitude threshold for discovering a tick/tock
-amp_thresh = 0.8
+amp_thresh = float(sys.argv[3])
 # Plot the detected peaks?
 render = True
 
@@ -18,7 +24,7 @@ if render:
 	import matplotlib.pyplot as plt
 
 # open up a wave
-wf = wave.open('t.wav', 'rb')
+wf = wave.open(sys.argv[1], 'rb')
 
 # Wave properties
 swidth = wf.getsampwidth()
